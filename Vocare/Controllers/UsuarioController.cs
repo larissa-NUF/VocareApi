@@ -9,7 +9,7 @@ namespace Vocare.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok("fdfsd");
+            return Ok("dev");
         }
     }
 }
