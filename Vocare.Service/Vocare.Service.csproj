@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vocare.Data\Vocare.Data.csproj" />
+    <ProjectReference Include="..\Vocare.Model\Vocare.Model.csproj" />
+  </ItemGroup>
+
+</Project>

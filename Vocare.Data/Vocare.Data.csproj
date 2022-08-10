@@ -5,8 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PetaPoco.Compiled" Version="6.0.524" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="PetaPoco.Compiled" Version="6.0.480" />
+    <PackageReference Include="PetaPoco.SqlKata" Version="2.1.11" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vocare.Model\Vocare.Model.csproj" />
   </ItemGroup>
 
 </Project>

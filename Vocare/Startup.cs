@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vocare.Configuration;
 
 namespace Vocare
 {
@@ -28,6 +29,7 @@ namespace Vocare
         {
 
             services.AddControllers();
+            services.AddDependencyInjection();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vocare", Version = "v1" });
