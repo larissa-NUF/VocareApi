@@ -6,17 +6,30 @@ using System.Collections.Generic;
 using Vocare.Model;
 using Vocare.Service.Intefaces;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using System;
 
 namespace Vocare.Controllers
 {
+    /// <summary>
+    /// Usuario Controller
+    /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("/usuario")]
     public class UsuarioController : ControllerBase
     {
+        
         #region Dependências
         private readonly IConfiguration _config;
         private readonly ILogger<UsuarioController> _logger;
         private readonly IUsuarioService _usuarioService;
+
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="artigoService"></param>
+        /// <param name="analiseLegibilidadeService"></param>
         public UsuarioController(
             IConfiguration config,
             ILoggerFactory loggerFactory,
@@ -32,10 +45,57 @@ namespace Vocare.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAll()
         {
-            List<Usuario> usuario = _usuarioService.GetAll();
-            return Ok(usuario);
+            try
+            {
+                List<Usuario> usuario = _usuarioService.GetAll();
+                return Ok(usuario);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error ao executar o método GetAll!", ex);
+                throw;
+            }
+            
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost]
+        public IActionResult Add([FromBody] Usuario request)
+        {
+            try
+            {
+                var usuario = _usuarioService.Add(request);
+                return CreatedAtAction(nameof(GetAll), new { usuario.Id }, usuario);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Add! usuário : {request}", ex);
+                throw;
+            }
+            
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet("{id}")]
+        public IActionResult GetById( int id)
+        {
+            try
+            {
+                var usuario = _usuarioService.GetById(id);
+                return CreatedAtAction(nameof(GetAll), new { usuario.Id }, usuario);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Add! getById : {id}", ex);
+                throw;
+            }
+            
         }
 
     }

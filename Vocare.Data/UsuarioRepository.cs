@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Vocare.Data.Interfaces;
 using Vocare.Model;
+using System.Threading.Tasks;
 
 namespace Data
 {
@@ -37,6 +38,39 @@ namespace Data
             catch (SqlException ex)
             {
                 _logger.LogError($"Erro ao executar o método GetAll!", ex);
+                throw;
+            }
+        }
+
+        public Usuario GetById(int id)
+        {
+            try
+            {
+                using IDatabase Db = Connection;
+                return Db.FirstOrDefault<Usuario>("WHERE id = @id", new { id });
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError($"Error ao executar o método GetById! id: {id}", ex);
+                throw;
+            }
+        }
+
+        public void Add(Usuario usuario)
+        {
+            try
+            {
+                usuario.DataCadastro = DateTime.Now;
+                usuario.DataAtualizacao = DateTime.Now;
+
+                using (IDatabase Db = Connection)
+                {
+                    Db.Insert(usuario);
+                }
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError($"Error ao executar o método Add! empresa : {usuario}", ex);
                 throw;
             }
         }

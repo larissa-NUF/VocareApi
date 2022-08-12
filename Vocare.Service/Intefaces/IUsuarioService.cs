@@ -10,5 +10,8 @@ namespace Vocare.Service.Intefaces
     public interface IUsuarioService
     {
         public List<Usuario> GetAll();
+        public Usuario Add(Usuario usuario);
+        public Usuario GetById (int id);
+
     }
 }
