@@ -27,9 +27,10 @@ namespace Vocare
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddAuthenticationSecurity(Configuration);
             services.AddControllers();
             services.AddDependencyInjection();
+            services.AddHttpProtection();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vocare", Version = "v1" });
@@ -47,7 +48,8 @@ namespace Vocare
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthenticationSecurity();
+            app.UseHttpProtection(env);
             app.UseRouting();
 
             app.UseAuthorization();

@@ -6,10 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Vocare.Data.Interfaces;
-using Vocare.Model;
 using System.Threading.Tasks;
 
-namespace Data
+namespace Vocare.Data
 {
     public class UsuarioRepository : IUsuarioRepository
     {
@@ -55,6 +54,19 @@ namespace Data
                 throw;
             }
         }
+        public Usuario GetByLogin(string login)
+        {
+            try
+            {
+                using IDatabase Db = Connection;
+                return Db.FirstOrDefault<Usuario>("WHERE login = @login", new { login });
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError($"Error ao executar o método GetByIdLogin! login: {login}", ex);
+                throw;
+            }
+        }
 
         public void Add(Usuario usuario)
         {
@@ -71,6 +83,22 @@ namespace Data
             catch (SqlException ex)
             {
                 _logger.LogError($"Error ao executar o método Add! empresa : {usuario}", ex);
+                throw;
+            }
+        }
+
+        public async Task<List<Perfil>> GetTypesById(int[] idsTipo)
+        {
+            try
+            {
+                using (IDatabase Db = Connection)
+                {
+                    return await Db.FetchAsync<Perfil>("WHERE Id in (@arraysId)", new { arraysId = idsTipo });
+                }
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError($"Error ao tentar GetTypesById {idsTipo}", ex);
                 throw;
             }
         }

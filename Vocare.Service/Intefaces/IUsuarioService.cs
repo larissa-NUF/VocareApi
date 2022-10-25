@@ -12,6 +12,8 @@ namespace Vocare.Service.Intefaces
         public List<Usuario> GetAll();
         public Usuario Add(Usuario usuario);
         public Usuario GetById (int id);
+    
+        Task<List<Perfil>> GetTypesById(int[] idsTipo);
 
     }
 }

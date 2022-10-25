@@ -1,10 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>170cc989-197f-4d0e-9d15-675b7a794ce9</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
@@ -13,6 +17,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Vocare.Model\Vocare.Model.csproj" />
     <ProjectReference Include="..\Vocare.Service\Vocare.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Vocare.Model">
+      <HintPath>..\Vocare.Model\bin\Debug\net5.0\Vocare.Model.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

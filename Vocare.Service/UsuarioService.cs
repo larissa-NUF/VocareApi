@@ -17,6 +17,7 @@ namespace Vocare.Service
         private readonly IConfiguration _config;
         private readonly ILogger<UsuarioService> _logger;
         private readonly IUsuarioRepository _usuarioRepository;
+        
         public UsuarioService(
             IConfiguration config,
             ILoggerFactory loggerFactory,
@@ -25,8 +26,11 @@ namespace Vocare.Service
             _config = config;
             _logger = loggerFactory.CreateLogger<UsuarioService>();
             _usuarioRepository = usuarioRepository;
+          
         }
+        #endregion
 
+        #region Métodos públicos
         public Usuario Add(Usuario usuario)
         {
             try
@@ -40,9 +44,7 @@ namespace Vocare.Service
                 throw;
             }
         }
-        #endregion
-
-        #region Métodos públicos
+        
         public List<Usuario> GetAll()
         {
             try
@@ -68,6 +70,20 @@ namespace Vocare.Service
             catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método GetById! id: {id}", ex);
+                throw;
+            }
+        }
+        
+
+        public async Task<List<Perfil>> GetTypesById(int[] idsTipo)
+        {
+            try
+            {
+                return await _usuarioRepository.GetTypesById(idsTipo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error em deletar dados do usuario!", ex);
                 throw;
             }
         }

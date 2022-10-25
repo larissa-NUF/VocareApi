@@ -1,5 +1,5 @@
-﻿using Data;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Vocare.Data;
 using Vocare.Data.Interfaces;
 using Vocare.Service;
 using Vocare.Service.Intefaces;
@@ -21,13 +21,15 @@ namespace Vocare.Configuration
         private static void AddServices(this IServiceCollection services)
         {
             services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<ITokenService, TokenService>();
             
         }
 
         private static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
-           
+            services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+
         }
     }
 }

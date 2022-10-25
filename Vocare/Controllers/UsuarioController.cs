@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Vocare.Model;
 using System.Collections.Generic;
-using Vocare.Model;
 using Vocare.Service.Intefaces;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
