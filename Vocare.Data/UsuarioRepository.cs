@@ -19,13 +19,7 @@ namespace Vocare.Data
             _connectionString = iconfiguration.GetConnectionString("Vocare");
             _logger = loggerFactory.CreateLogger<UsuarioRepository>();
         }
-        public IDatabase Connection
-        {
-            get
-            {
-                return new Database(_connectionString, SqlClientFactory.Instance);
-            }
-        }
+        private IDatabase Connection => new Database(_connectionString, SqlClientFactory.Instance);
 
         public List<Usuario> GetAll()
         {
@@ -34,7 +28,7 @@ namespace Vocare.Data
                 using IDatabase Db = Connection;
                 return Db.Fetch<Usuario>();
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Erro ao executar o método GetAll!", ex);
                 throw;
@@ -48,7 +42,7 @@ namespace Vocare.Data
                 using IDatabase Db = Connection;
                 return Db.FirstOrDefault<Usuario>("WHERE id = @id", new { id });
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método GetById! id: {id}", ex);
                 throw;
@@ -61,7 +55,7 @@ namespace Vocare.Data
                 using IDatabase Db = Connection;
                 return Db.FirstOrDefault<Usuario>("WHERE login = @login", new { login });
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método GetByIdLogin! login: {login}", ex);
                 throw;
@@ -80,7 +74,7 @@ namespace Vocare.Data
                     Db.Insert(usuario);
                 }
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método Add! empresa : {usuario}", ex);
                 throw;
@@ -96,7 +90,7 @@ namespace Vocare.Data
                     return await Db.FetchAsync<Perfil>("WHERE Id in (@arraysId)", new { arraysId = idsTipo });
                 }
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error ao tentar GetTypesById {idsTipo}", ex);
                 throw;

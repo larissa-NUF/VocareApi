@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetaPoco;
+using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Vocare.Data.Interfaces;
@@ -15,7 +16,7 @@ namespace Vocare.Data
         public RefreshTokenRepository(IConfiguration iconfiguration, ILoggerFactory loggerFactory)
         {
             _connectionString = iconfiguration.GetConnectionString("Vocare");
-            _logger = loggerFactory.CreateLogger<UsuarioRepository>();
+            _logger = loggerFactory.CreateLogger<PerguntaTesteRepository>();
         }
         private IDatabase Connection => new Database(_connectionString, SqlClientFactory.Instance);
 
@@ -27,7 +28,7 @@ namespace Vocare.Data
                 var result = await Db.FirstOrDefaultAsync<RefreshToken>("WHERE Token = @token", new { token });
                 return result;
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método GetById! id: {token}", ex);
                 throw;
@@ -44,7 +45,7 @@ namespace Vocare.Data
                     Db.Insert(refreshToken);
                 }
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método Insert! empresa : {refreshToken}", ex);
                 throw;
@@ -59,7 +60,7 @@ namespace Vocare.Data
 
                 await Db.UpdateAsync(refreshTokenValidado);
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método Insert! Token : {refreshTokenValidado.AccessToken}", ex);
                 throw;

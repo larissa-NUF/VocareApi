@@ -29,6 +29,9 @@ namespace Vocare.Configuration
         {
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddTransient<ITesteRepository, TesteRepository>();
+            services.AddTransient<IPerguntaTesteRepository, PerguntaTesteRepository>();
+            services.AddTransient<ITesteRepository, TesteRepository>();
 
         }
     }

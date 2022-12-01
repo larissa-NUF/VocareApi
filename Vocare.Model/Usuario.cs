@@ -2,7 +2,6 @@
 using Vocare.Util;
 using System.Collections.Generic;
 using PetaPoco;
-using System.Linq;
 
 namespace Vocare.Model
 {
