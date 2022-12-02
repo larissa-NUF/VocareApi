@@ -136,7 +136,9 @@ namespace Vocare.Service
             try
             {
                 var usuario = _usuarioRepository.GetByLogin(request.Login);
-                if (usuario is null || usuario.Login == request.Login || usuario.Senha == request.Senha)
+                if (usuario is null)
+                    throw new UnauthorizedAccessException("Senha e/ou usuário incorretos!");
+                if (usuario is not null && usuario.Login == request.Login && usuario.Senha == request.Senha)
                     return await GerarTokenAsync(usuario);
                 else
                     throw new UnauthorizedAccessException("Senha e/ou usuário incorretos!");
