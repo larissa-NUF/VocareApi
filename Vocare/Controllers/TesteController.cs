@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Vocare.Data.Interfaces;
 using Vocare.Model;
+using Vocare.Service.Intefaces;
 
 namespace Vocare.Controllers
 {
@@ -15,11 +16,11 @@ namespace Vocare.Controllers
     {
         #region Dependências
         private readonly ILogger<TesteController> _logger;
-        private readonly ITesteRepository _testeRepository;
+        private readonly ITesteService _testeRepository;
 
         public TesteController(
             ILoggerFactory loggerFactory,
-            ITesteRepository testeRepository)
+            ITesteService testeRepository)
         {
             _logger = loggerFactory.CreateLogger<TesteController>();
             _testeRepository = testeRepository;

@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using Vocare.Data;
 using Vocare.Data.Interfaces;
 using Vocare.Model;
+using Vocare.Service.Intefaces;
 
 namespace Vocare.Service
 {
-    public class TesteService
+    public class TesteService: ITesteService
     {
         #region Dependências
         private readonly IConfiguration _config;
