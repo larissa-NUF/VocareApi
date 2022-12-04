@@ -22,17 +22,16 @@ namespace Vocare.Configuration
         {
             services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<ITokenService, TokenService>();
-            
+            services.AddTransient<ITesteService, TesteService>();
         }
 
         private static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
-            services.AddTransient<ITesteRepository, TesteRepository>();
             services.AddTransient<IPerguntaTesteRepository, PerguntaTesteRepository>();
             services.AddTransient<ITesteRepository, TesteRepository>();
-
+            services.AddTransient<ITesteRespostaRepository, TesteRespostaRepository>();
         }
     }
 }

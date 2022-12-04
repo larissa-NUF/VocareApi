@@ -1,17 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vocare.Data;
 using Vocare.Data.Interfaces;
 using Vocare.Model;
+using Vocare.Service.Intefaces;
 
 namespace Vocare.Service
 {
-    public class TesteService
+    public class TesteService : ITesteService
     {
         #region Dependências
         private readonly IConfiguration _config;
@@ -29,29 +25,30 @@ namespace Vocare.Service
         {
             _config = config;
             _logger = loggerFactory.CreateLogger<TesteService>();
-            _testeRepository= testeRepository;
+            _testeRepository = testeRepository;
             _testeRespostaRepository = testeRespostaRepository;
             _perguntaTesteRepository = perguntaTesteRepository;
         }
         #endregion
 
         #region Métodos públicos
-        public Teste Insert(Teste teste)
+        public TesteRequest Insert(TesteRequest testeRequest)
         {
             try
             {
-                var idTeste = _testeRepository.Insert(teste);
+                testeRequest.Teste.DataCadastro = DateTime.Now;
+                var idTeste = _testeRepository.Insert(testeRequest.Teste);
                 var testeSalvo = _testeRepository.GetById(idTeste);
-                foreach(var item in teste.Respostas)
+                foreach (var item in testeRequest.Respostas)
                 {
                     item.IdTeste = idTeste;
                     _testeRespostaRepository.Insert(item);
                 }
-                return teste;
+                return testeRequest;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error ao executar o método Insert! teste: {teste}", ex);
+                _logger.LogError($"Error ao executar o método Insert! teste: {testeRequest}", ex);
                 throw;
             }
         }

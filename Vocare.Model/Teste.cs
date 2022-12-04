@@ -10,6 +10,5 @@ namespace Vocare.Model
         public DateTime DataCadastro { get; set; }
         public int IdUsuario { get; set; }
         public int IdPsicologo { get; set; }
-        public IList<TesteResposta> Respostas { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Vocare.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Insert([FromBody] Teste teste)
+        public IActionResult Insert([FromBody] TesteRequest teste)
         {
             try
             {
