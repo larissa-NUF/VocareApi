@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Threading.Tasks;
-using Vocare.Data.Interfaces;
 using Vocare.Model;
 using Vocare.Service.Intefaces;
 
@@ -16,14 +14,14 @@ namespace Vocare.Controllers
     {
         #region Dependências
         private readonly ILogger<TesteController> _logger;
-        private readonly ITesteService _testeRepository;
+        private readonly ITesteService _testeService;
 
         public TesteController(
             ILoggerFactory loggerFactory,
-            ITesteService testeRepository)
+            ITesteService testeService)
         {
             _logger = loggerFactory.CreateLogger<TesteController>();
-            _testeRepository = testeRepository;
+            _testeService = testeService;
         }
         #endregion
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -35,12 +33,12 @@ namespace Vocare.Controllers
         {
             try
             {
-                var testeSalvo = _testeRepository.Insert(teste);
+                var testeSalvo = _testeService.Insert(teste);
                 return Ok(testeSalvo);
             }
             catch (UnauthorizedAccessException ex)
             {
-                return BadRequest(new { Message = ex.Message});
+                return BadRequest(new { Message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -49,6 +47,6 @@ namespace Vocare.Controllers
             }
 
         }
-      
+
     }
 }
