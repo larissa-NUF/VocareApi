@@ -42,7 +42,34 @@ namespace Vocare.Service
                 throw;
             }
         }
-        
+
+        public Usuario Update(Usuario usuario)
+        {
+            try
+            {
+                _usuarioRepository.Update(usuario);
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Update! usuário: {usuario}", ex);
+                throw;
+            }
+        }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                _usuarioRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Delete! Id: {id}", ex);
+                throw;
+            }
+        }
+
         public List<Usuario> GetAll()
         {
             try
@@ -56,6 +83,21 @@ namespace Vocare.Service
                 throw;
             }
             
+        }
+
+        public List<Usuario> GetByPerfil(string perfil)
+        {
+            try
+            {
+                var usuario = _usuarioRepository.GetByPeril(perfil);
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetByPerfil!", ex);
+                throw;
+            }
+
         }
 
         public Usuario GetById(int id)

@@ -81,6 +81,44 @@ namespace Vocare.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPut]
+        public IActionResult Update([FromBody] Usuario request)
+        {
+            try
+            {
+                var usuario = _usuarioService.Update(request);
+                return CreatedAtAction(nameof(GetAll), new { usuario.Id }, usuario);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Update! Usuario : {request}", ex);
+                throw;
+            }
+
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            try
+            {
+                _usuarioService.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Delete! Id : {id}", ex);
+                throw;
+            }
+
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("{id}")]
         public IActionResult GetById( int id)
         {
@@ -95,6 +133,25 @@ namespace Vocare.Controllers
                 throw;
             }
             
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet("/usuario/perfil/{perfil}")]
+        public IActionResult GetByPerfil([FromRoute] string perfil)
+        {
+            try
+            {
+                var usuario = _usuarioService.GetByPerfil(perfil);
+                return Ok(usuario);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetByPerfil! perfil : {perfil}", ex);
+                throw;
+            }
+
         }
 
     }
