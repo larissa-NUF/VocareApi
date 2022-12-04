@@ -48,6 +48,21 @@ namespace Vocare.Data
                 throw;
             }
         }
+
+        public List<Usuario> GetByPeril(string perfil)
+        {
+            try
+            {
+                using IDatabase Db = Connection;
+                return Db.Fetch<Usuario>("WHERE Perfis = @perfil", new { perfil });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetByPeril! id: {perfil}", ex);
+                throw;
+            }
+        }
+
         public Usuario GetByLogin(string login)
         {
             try
@@ -77,6 +92,40 @@ namespace Vocare.Data
             catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método Add! empresa : {usuario}", ex);
+                throw;
+            }
+        }
+
+        public void Update(Usuario usuario)
+        {
+            try
+            {
+                usuario.DataAtualizacao = DateTime.Now;
+
+                using (IDatabase Db = Connection)
+                {
+                    Db.Update("Usuario", "Id", usuario, usuario.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Update! Usuario : {usuario}", ex);
+                throw;
+            }
+        }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                using (IDatabase Db = Connection)
+                {
+                    Db.Delete("Usuario", "Id", null, id);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Delete! Id : {id}", ex);
                 throw;
             }
         }
