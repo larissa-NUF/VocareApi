@@ -128,7 +128,6 @@ namespace Vocare.Service
                 response.Token = request.AccessToken;
             }
 
-            usuario.Senha = "";
             return usuario;
         }
 
