@@ -96,6 +96,54 @@ namespace Vocare.Controllers
 
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet("/consulta/cliente/aceito/{id}")]
+        [AllowAnonymous]
+        public IActionResult GetConsultasByClienteAceito([FromRoute] int id)
+        {
+            try
+            {
+                var consultas = _consultaService.GetConsultasByClienteAceito(id);
+                return Ok(consultas);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetConsultasByClienteAceito!", ex);
+                throw;
+            }
+
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost("/consulta/data")]
+        [AllowAnonymous]
+        public IActionResult GetConsultasByData([FromBody] ConsultaRequest request)
+        {
+            try
+            {
+                var consultas = _consultaService.GetConsultasByData(request.Id, request.DataConsulta);
+                return Ok(consultas);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetConsultasByPsicologo!", ex);
+                throw;
+            }
+
+        }
+
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
