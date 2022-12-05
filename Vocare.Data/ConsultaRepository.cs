@@ -100,5 +100,33 @@ namespace Vocare.Data
             using IDatabase Db = Connection;
             return Db.Fetch<Consulta>("SELECT * FROM Consulta WHERE IdCliente = @idCliente", new { idCliente });
         }
+
+        public List<ConsultaResponse> GetConsultasByClienteAceito(int id)
+        {
+            try
+            {
+                using IDatabase Db = Connection;
+                return Db.Fetch<ConsultaResponse>("select c.*, u.nome from consulta as c, usuario as u WHERE Aceita=1 and u.id = c.idcliente and c.idCliente = @id", new { id });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetConsultasByPsicologo! id: {id}", ex);
+                throw;
+            }
+        }
+
+        public List<ConsultaResponse> GetConsultasByData(int id, DateTime data)
+        {
+            try
+            {
+                using IDatabase Db = Connection;
+                return Db.Fetch<ConsultaResponse>("select c.*, u.nome from consulta as c, usuario as u WHERE Aceita is not NULL and u.id = c.idcliente and c.idPsicologo = @id and cast(dataConsulta as date) = cast(@data as date)", new { id, data });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetConsultasByPsicologo! id: {id}", ex);
+                throw;
+            }
+        }
     }
 }

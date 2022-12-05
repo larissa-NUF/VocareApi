@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using Vocare.Model;
 
@@ -12,5 +13,7 @@ namespace Vocare.Data.Interfaces
         List<Consulta> GetAll();
         List<ConsultaResponse> GetConsultasByPsicologo(int id);
         List<Consulta> MinhasConsultas(int idCliente);
+        List<ConsultaResponse> GetConsultasByData(int id, DateTime data);
+        List<ConsultaResponse> GetConsultasByClienteAceito(int id);
     }
 }

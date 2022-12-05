@@ -95,6 +95,36 @@ namespace Vocare.Service
             }
         }
 
+        public List<ConsultaResponse> GetConsultasByClienteAceito(int id)
+        {
+            try
+            {
+                var consultas = _consultaRepository.GetConsultasByClienteAceito(id);
+
+                return consultas;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetConsultasByClienteAceito!", ex);
+                throw;
+            }
+        }
+
+        public List<ConsultaResponse> GetConsultasByData(int id, DateTime data)
+        {
+            try
+            {
+                var consultas = _consultaRepository.GetConsultasByData(id, data);
+
+                return consultas;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetConsultasByData!", ex);
+                throw;
+            }
+        }
+
         public Consulta Update(Consulta consulta)
         {
             try
