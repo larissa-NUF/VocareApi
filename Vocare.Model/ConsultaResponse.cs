@@ -15,5 +15,6 @@ namespace Vocare.Model
         public bool Finalizada { get; set; }
         public string IdSala { get; set; }
         public string? Nome { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -34,6 +34,22 @@ namespace Vocare.Service
 
         #region Métodos públicos
 
+        public Consulta Insert(Consulta consulta)
+        {
+            try
+            {
+                consulta.DataCadastro = DateTime.Now;
+                consulta.IdPsicologo = null;
+                _consultaRepository.Insert(consulta);
+                return consulta;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetAll!", ex);
+                throw;
+            }
+        }
+
         public List<Consulta> GetAll()
         {
             try
@@ -91,6 +107,11 @@ namespace Vocare.Service
                 _logger.LogError($"Error ao executar o método Update! consulta: {consulta}", ex);
                 throw;
             }
+        }
+
+        public List<Consulta> MinhasConsultas(int idUsuario)
+        {
+            return _consultaRepository.MinhasConsultas(idUsuario);
         }
         #endregion
     }

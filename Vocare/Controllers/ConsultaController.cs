@@ -51,6 +51,29 @@ namespace Vocare.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult AddConsulta([FromBody] Consulta request)
+        {
+            try
+            {
+                var consulta = _consultaService.Insert(request);
+                return Ok(consulta);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método GetConsultasByPsicologo!", ex);
+                throw;
+            }
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("/consulta/solicitacoes")]
         [AllowAnonymous]
         public IActionResult GetSolicitacoes()
@@ -113,6 +136,24 @@ namespace Vocare.Controllers
                 throw;
             }
 
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet("/minhas-consultas/{idCliente}")]
+        public IActionResult MinhasConsultas([FromRoute] int idCliente)
+        {
+            try
+            {
+                var consulta = _consultaService.MinhasConsultas(idCliente);
+                return Ok(consulta);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao executar o método Update! Usuario : {idCliente}", ex);
+                throw;
+            }
         }
     }
 }

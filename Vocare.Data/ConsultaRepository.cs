@@ -23,6 +23,20 @@ namespace Vocare.Data
         }
         private IDatabase Connection => new Database(_connectionString, SqlClientFactory.Instance);
 
+        public void Insert(Consulta consulta)
+        {
+            try
+            {
+                using IDatabase Db = Connection;
+                Db.Insert(consulta);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Erro ao executar o método Insert!", ex);
+                throw;
+            }
+        }
+
         public List<Consulta> GetAll()
         {
             try
@@ -42,7 +56,7 @@ namespace Vocare.Data
             try
             {
                 using IDatabase Db = Connection;
-                return Db.Fetch<ConsultaResponse>("select c.*, u.nome from consulta as c, usuario as u WHERE Aceita is NULL and u.id = c.idcliente");
+                return Db.Fetch<ConsultaResponse>("select c.*, u.nome, u.email from consulta as c, usuario as u WHERE Aceita = 0 and u.id = c.idcliente");
             }
             catch (Exception ex)
             {
@@ -72,13 +86,19 @@ namespace Vocare.Data
             try
             {
                 using IDatabase Db = Connection;
-                return Db.Fetch<ConsultaResponse>("select c.*, u.nome from consulta as c, usuario as u WHERE Aceita is not NULL and u.id = c.idcliente and c.idPsicologo = @id", new { id });
+                return Db.Fetch<ConsultaResponse>("select c.*, u.nome, u.email from consulta as c, usuario as u WHERE Aceita is not NULL and u.id = c.idcliente and c.idPsicologo = @id", new { id });
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error ao executar o método GetConsultasByPsicologo! id: {id}", ex);
                 throw;
             }
+        }
+
+        public List<Consulta> MinhasConsultas(int idCliente)
+        {
+            using IDatabase Db = Connection;
+            return Db.Fetch<Consulta>("SELECT * FROM Consulta WHERE IdCliente = @idCliente", new { idCliente });
         }
     }
 }

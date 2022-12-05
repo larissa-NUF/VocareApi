@@ -37,6 +37,7 @@ namespace Vocare.Service
             try
             {
                 testeRequest.Teste.DataCadastro = DateTime.Now;
+                testeRequest.Teste.IdPsicologo = null;
                 var idTeste = _testeRepository.Insert(testeRequest.Teste);
                 var testeSalvo = _testeRepository.GetById(idTeste);
                 foreach (var item in testeRequest.Respostas)
